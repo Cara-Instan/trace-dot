@@ -1,0 +1,211 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pinch — Design directions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#ffffff', surface: '#ffffff', fg: '#111827', muted: '#64748b',
+            border: '#e5e7eb', accent: '#000000', 'accent-on': '#ffffff',
+            'accent-hover': '#1a1a1a', success: '#16a34a', warn: '#d97706', danger: '#dc2626',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Fira Code"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { sm: '6px', md: '8px', lg: '12px' },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-mono { font-family: 'Fira Code', ui-monospace, monospace; }
+  </style>
+</head>
+<body class="bg-zinc-50 min-h-screen text-zinc-900">
+  <header class="border-b border-zinc-200 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div class="w-8 h-8 rounded-md bg-black text-white text-sm font-bold flex items-center justify-center">P</div>
+      <div class="flex-1">
+        <div class="text-sm font-semibold tracking-tight">Pinch</div>
+        <div class="text-[11px] font-mono text-zinc-500">open-source desktop PDF utility · electobun</div>
+      </div>
+      <span class="text-[10px] font-mono text-zinc-500 px-2 py-1 bg-zinc-100 rounded">v0.1 · design exploration</span>
+    </div>
+  </header>
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <div class="max-w-2xl mb-12">
+      <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Design exploration · v0.1</div>
+      <h1 class="text-3xl font-semibold tracking-tight">Two directions, same shell.</h1>
+      <p class="text-sm text-zinc-600 mt-3 leading-relaxed">Pinch is a desktop PDF utility built on Electrobun (Bun + native WebView). v0.1 ships merge, split, history, and settings. This is a side-by-side comparison of two design directions for the same five surfaces — pick a direction and click any screen to walk through it.</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <section data-od-id="direction-shadcn" class="bg-white border border-zinc-200 rounded-lg overflow-hidden">
+        <div class="px-5 py-4 border-b border-zinc-200">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Direction 01</span>
+            <span class="text-[10px] font-mono text-zinc-400">·</span>
+            <span class="text-[10px] font-mono text-zinc-500">shadcn-baseline</span>
+          </div>
+          <h2 class="text-lg font-semibold tracking-tight">Shadcn minimal</h2>
+          <p class="text-xs text-zinc-600 mt-1.5 leading-relaxed">Calm baseline. White surface, hairline borders, generous whitespace, single black accent. Reads as a confident, modern product shell — the kind a team would ship without question.</p>
+          <div class="flex flex-wrap gap-1.5 mt-3">
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">white surface</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">12px radius</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">Inter</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">spacious</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Screens</div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="shadcn/home.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">01</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Home</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Empty state + quick start</div>
+            </a>
+            <a href="shadcn/merge.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">02</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Merge</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Reorder, ranges, output</div>
+            </a>
+            <a href="shadcn/split.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">03</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Split</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Page selection + modes</div>
+            </a>
+            <a href="shadcn/history.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">04</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">History</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Operations log</div>
+            </a>
+            <a href="shadcn/settings.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors col-span-2">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">05</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Settings</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">General · appearance · output · about</div>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section data-od-id="direction-utility" class="bg-white border border-zinc-200 rounded-lg overflow-hidden">
+        <div class="px-5 py-4 border-b border-zinc-200">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-zinc-500">Direction 02</span>
+            <span class="text-[10px] font-mono text-zinc-400">·</span>
+            <span class="text-[10px] font-mono text-zinc-500">data-utility</span>
+          </div>
+          <h2 class="text-lg font-semibold tracking-tight">Data utility</h2>
+          <p class="text-xs text-zinc-600 mt-1.5 leading-relaxed">Denser rhythm. Mono metadata, table-like rows, dark title bar, status pills with semantic color. Reads as a tool for users who run the same operations dozens of times a day.</p>
+          <div class="flex flex-wrap gap-1.5 mt-3">
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">dark title</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">6px radius</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">Fira Code</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono bg-zinc-100 text-zinc-600 rounded">compact</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Screens</div>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="utility/home.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">01</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Home</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Drop zone + recent + disk</div>
+            </a>
+            <a href="utility/merge.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">02</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Merge</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Tabular file list + footer</div>
+            </a>
+            <a href="utility/split.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">03</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Split</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Page grid + output config</div>
+            </a>
+            <a href="utility/history.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">04</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">History</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">Dense ops table</div>
+            </a>
+            <a href="utility/settings.html" class="group block border border-zinc-200 rounded p-3 hover:border-zinc-400 transition-colors col-span-2">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-zinc-400">05</span>
+                <svg class="w-3 h-3 text-zinc-300 group-hover:text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+              </div>
+              <div class="text-sm font-medium">Settings</div>
+              <div class="text-[11px] text-zinc-500 mt-0.5">TOML-style key/value editor</div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section data-od-id="spec-summary" class="mt-12 grid sm:grid-cols-3 gap-4 text-xs">
+      <div class="border border-zinc-200 rounded-lg bg-white p-4">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Shell</div>
+        <div class="font-medium text-zinc-900 mb-1">3-tier desktop layout</div>
+        <p class="text-zinc-600 leading-relaxed">Fixed sidebar (224px) · dynamic workspace · contextual footer panel that reveals on stage.</p>
+      </div>
+      <div class="border border-zinc-200 rounded-lg bg-white p-4">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Breakpoints</div>
+        <div class="font-medium text-zinc-900 mb-1">sm · md · lg</div>
+        <p class="text-zinc-600 leading-relaxed">Sidebar collapses to icons under 768px. File grid: 1 col mobile, 2 @ sm, 4 @ md. Footer panel stays full-width.</p>
+      </div>
+      <div class="border border-zinc-200 rounded-lg bg-white p-4">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Build</div>
+        <div class="font-medium text-zinc-900 mb-1">Tailwind utility-first</div>
+        <p class="text-zinc-600 leading-relaxed">No UI library runtime. Tokens map 1:1 to the Shadcn contract. Both directions share the same component vocabulary.</p>
+      </div>
+    </section>
+    <section data-od-id="file-map" class="mt-10 border-t border-zinc-200 pt-8 text-xs text-zinc-500">
+      <div class="flex items-start gap-6 flex-wrap">
+        <div>
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1">File map</div>
+          <div class="font-mono text-zinc-700 leading-relaxed">
+            /index.html<br />
+            /shadcn/{home,merge,split,history,settings}.html<br />
+            /utility/{home,merge,split,history,settings}.html
+          </div>
+        </div>
+        <div>
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Roadmap</div>
+          <p class="leading-relaxed max-w-md">v0.2 — Image suite (resize, convert, compress). v0.3 — Audio suite. v0.4 — Text suite. Layout blueprint is tool-agnostic; the 3-tier shell, drop zone pattern, and sticky footer panel transfer to every suite.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

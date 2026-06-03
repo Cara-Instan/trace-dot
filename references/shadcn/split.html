@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pinch — Split</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#ffffff', surface: '#ffffff', fg: '#111827', muted: '#64748b',
+            border: '#e5e7eb', accent: '#000000', 'accent-on': '#ffffff',
+            'accent-hover': '#1a1a1a', success: '#16a34a', warn: '#d97706', danger: '#dc2626',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Fira Code"', 'ui-monospace', 'monospace'],
+          },
+          borderRadius: { sm: '6px', md: '8px', lg: '12px' },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-mono { font-family: 'Fira Code', ui-monospace, monospace; }
+    .nav-item { transition: background-color 150ms cubic-bezier(0.2, 0, 0, 1); }
+  </style>
+</head>
+<body class="bg-zinc-100 min-h-screen p-6 flex items-center justify-center">
+  <div class="w-full max-w-6xl h-[820px] bg-white rounded-xl border border-zinc-200 shadow-xl overflow-hidden flex flex-col">
+    <div class="h-10 bg-zinc-50 border-b border-zinc-200 flex items-center px-4 shrink-0">
+      <div class="flex gap-1.5">
+        <span class="w-3 h-3 rounded-full bg-zinc-300"></span>
+        <span class="w-3 h-3 rounded-full bg-zinc-300"></span>
+        <span class="w-3 h-3 rounded-full bg-zinc-300"></span>
+      </div>
+      <div class="text-xs text-zinc-500 ml-auto font-mono tracking-tight">Pinch · Split</div>
+    </div>
+    <div class="flex-1 flex overflow-hidden">
+      <aside class="w-56 border-r border-zinc-200 bg-white p-3 shrink-0 flex flex-col">
+        <div class="flex items-center gap-2 px-2 py-1.5 mb-4">
+          <div class="w-6 h-6 rounded-md bg-black text-white text-xs font-bold flex items-center justify-center">P</div>
+          <span class="text-sm font-semibold tracking-tight">Pinch</span>
+        </div>
+        <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2 px-2">PDF Suite</div>
+        <nav class="space-y-0.5">
+          <a href="home.html" class="nav-item flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm text-zinc-600 hover:bg-zinc-50">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
+            Home
+          </a>
+          <a href="merge.html" class="nav-item flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm text-zinc-600 hover:bg-zinc-50">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Merge
+          </a>
+          <a href="split.html" class="nav-item flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm bg-zinc-100 text-zinc-900 font-medium">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3v18M3 8l9 5 9-5"/></svg>
+            Split
+          </a>
+        </nav>
+        <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2 mt-6 px-2">Workspace</div>
+        <nav class="space-y-0.5">
+          <a href="history.html" class="nav-item flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm text-zinc-600 hover:bg-zinc-50">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg>
+            History
+          </a>
+          <a href="settings.html" class="nav-item flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm text-zinc-600 hover:bg-zinc-50">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+            Settings
+          </a>
+        </nav>
+        <div class="mt-auto px-2 py-2 text-[10px] font-mono text-zinc-400">v0.1.0 · on-device</div>
+      </aside>
+      <main class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 overflow-auto p-8">
+          <div class="flex items-end justify-between mb-6">
+            <div>
+              <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Source file</div>
+              <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">research-archive.pdf</h1>
+              <p class="text-sm text-zinc-500 mt-1 font-mono">3.2 MB · 24 pages</p>
+            </div>
+            <button class="text-xs text-zinc-600 hover:text-zinc-900 underline underline-offset-2">Replace file</button>
+          </div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-xs text-zinc-500">Select pages to extract:</span>
+            <button class="text-xs text-zinc-600 hover:text-zinc-900 underline underline-offset-2">All</button>
+            <span class="text-xs text-zinc-300">·</span>
+            <button class="text-xs text-zinc-600 hover:text-zinc-900 underline underline-offset-2">Odd</button>
+            <span class="text-xs text-zinc-300">·</span>
+            <button class="text-xs text-zinc-600 hover:text-zinc-900 underline underline-offset-2">Even</button>
+            <span class="text-xs text-zinc-300">·</span>
+            <button class="text-xs text-zinc-600 hover:text-zinc-900 underline underline-offset-2">None</button>
+          </div>
+          <div class="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-12 gap-2">
+            <div class="aspect-[3/4] border-2 border-zinc-900 rounded-sm bg-white flex flex-col items-center justify-center text-xs font-mono text-zinc-900 relative">
+              <span>01</span>
+            </div>
+            <div class="aspect-[3/4] border-2 border-zinc-900 rounded-sm bg-white flex flex-col items-center justify-center text-xs font-mono text-zinc-900">
+              <span>02</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>03</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>04</span>
+            </div>
+            <div class="aspect-[3/4] border-2 border-zinc-900 rounded-sm bg-white flex flex-col items-center justify-center text-xs font-mono text-zinc-900">
+              <span>05</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>06</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>07</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>08</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>09</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>10</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>11</span>
+            </div>
+            <div class="aspect-[3/4] border border-zinc-200 rounded-sm bg-zinc-50 flex flex-col items-center justify-center text-xs font-mono text-zinc-400">
+              <span>12</span>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-zinc-500 font-mono">Showing first 12 of 24 pages · 2 selected</p>
+        </div>
+        <div class="shrink-0 border-t border-zinc-200 bg-white/80 backdrop-blur-md">
+          <div class="px-8 py-5">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-1">Split settings</div>
+                <h2 class="text-base font-semibold tracking-tight text-zinc-900">Configure output</h2>
+              </div>
+              <div class="text-xs text-zinc-500 font-mono">2 files will be created</div>
+            </div>
+            <div class="mb-4">
+              <label class="block text-xs text-zinc-600 mb-2">Split mode</label>
+              <div class="grid grid-cols-3 gap-2">
+                <label class="flex items-center gap-2 px-3 py-2 border border-zinc-200 rounded-md cursor-pointer hover:bg-zinc-50 has-[:checked]:border-zinc-900 has-[:checked]:bg-zinc-50">
+                  <input type="radio" name="mode" checked class="text-black focus:ring-black" />
+                  <div>
+                    <div class="text-sm font-medium">Selected pages</div>
+                    <div class="text-[10px] text-zinc-500">2 pages → 1 file</div>
+                  </div>
+                </label>
+                <label class="flex items-center gap-2 px-3 py-2 border border-zinc-200 rounded-md cursor-pointer hover:bg-zinc-50 has-[:checked]:border-zinc-900 has-[:checked]:bg-zinc-50">
+                  <input type="radio" name="mode" class="text-black focus:ring-black" />
+                  <div>
+                    <div class="text-sm font-medium">By range</div>
+                    <div class="text-[10px] text-zinc-500">1–5, 6–10, 11–15</div>
+                  </div>
+                </label>
+                <label class="flex items-center gap-2 px-3 py-2 border border-zinc-200 rounded-md cursor-pointer hover:bg-zinc-50 has-[:checked]:border-zinc-900 has-[:checked]:bg-zinc-50">
+                  <input type="radio" name="mode" class="text-black focus:ring-black" />
+                  <div>
+                    <div class="text-sm font-medium">Every N pages</div>
+                    <div class="text-[10px] text-zinc-500">Split into chunks</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-5">
+              <div>
+                <label class="block text-xs text-zinc-600 mb-1.5">Page range (comma-separated)</label>
+                <input type="text" value="1, 2, 5" class="w-full px-3 py-2 text-sm border border-zinc-200 rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-zinc-400" />
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-600 mb-1.5">Filename pattern</label>
+                <input type="text" value="research-archive-{n}.pdf" class="w-full px-3 py-2 text-sm border border-zinc-200 rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-zinc-400" />
+              </div>
+            </div>
+            <div class="flex items-center justify-end gap-2">
+              <button class="px-4 py-2 text-sm border border-zinc-200 rounded-md hover:bg-zinc-50">Cancel</button>
+              <button class="px-4 py-2 text-sm bg-black text-white rounded-md hover:bg-zinc-800 flex items-center gap-2">
+                Split into 1 file
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
