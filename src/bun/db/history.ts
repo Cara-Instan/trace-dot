@@ -70,3 +70,18 @@ export function getHistoryCount(): number {
 	const row = countStmt.get() as { count: number };
 	return row.count;
 }
+
+const operationCountStmt = db.prepare(
+	`SELECT operation, COUNT(*) as count FROM history GROUP BY operation`,
+);
+
+export function getOperationCounts(): { total: number; merges: number; splits: number } {
+	const rows = operationCountStmt.all() as { operation: string; count: number }[];
+	let merges = 0;
+	let splits = 0;
+	for (const row of rows) {
+		if (row.operation === "merge") merges = row.count;
+		if (row.operation === "split") splits = row.count;
+	}
+	return { total: merges + splits, merges, splits };
+}

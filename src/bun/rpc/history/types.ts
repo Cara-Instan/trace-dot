@@ -30,6 +30,10 @@ export type HistoryBunRPCType = RPCSchema<{
 			params: {};
 			response: { deleted: number };
 		};
+		historyCount: {
+			params: {};
+			response: { total: number; merges: number; splits: number };
+		};
 	};
 	messages: {};
 }>;

@@ -1,9 +1,10 @@
-import { addHistory, listHistory, deleteHistory, clearHistory } from "../../db/history";
+import { addHistory, listHistory, deleteHistory, clearHistory, getOperationCounts } from "../../db/history";
 
 export function createHistoryRPCService() {
 	return {
 		historyList: (params: { limit?: number }) => {
-			return listHistory(params.limit ?? 50);
+			const limit = Math.max(1, Math.min(Math.floor(params.limit ?? 50), 10000));
+			return listHistory(limit);
 		},
 		historyAdd: (params: {
 			operation: "split" | "merge";
@@ -26,6 +27,9 @@ export function createHistoryRPCService() {
 		historyClear: () => {
 			const deleted = clearHistory();
 			return { deleted };
+		},
+		historyCount: () => {
+			return getOperationCounts();
 		},
 	};
 }
