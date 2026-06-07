@@ -25,3 +25,4 @@ export default {
 		},
 	},
 } satisfies ElectrobunConfig;
+// Im testing Vigilant mode.
