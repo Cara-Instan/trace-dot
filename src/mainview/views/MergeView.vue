@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useElectroView, onMergeProgress, onMergeError } from '../composables/useRPC';
 import FileCard from '../components/FileCard.vue';
 import MergeConfigFooter from '../components/MergeConfigFooter.vue';
+import HistoryTable from '../components/HistoryTable.vue';
+import type { HistoryItem } from '../types/history';
 import { formatFileSize } from '../utils/format';
 
 const { electroview } = useElectroView();
+const router = useRouter();
 
 interface StagedFile {
   id: string;
@@ -25,10 +29,23 @@ const error = ref<string | null>(null);
 const mergeResult = ref<{ outputPath: string; fileSize: number; pageCount: number } | null>(null);
 const isDragging = ref(false);
 let dragCounter = 0;
+const recentHistory = ref<HistoryItem[]>([]);
+let redirectTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const totalPages = computed(() => stagedFiles.value.reduce((sum, f) => sum + f.pageCount, 0));
 const totalSize = computed(() => formatFileSize(stagedFiles.value.reduce((sum, f) => sum + f.fileSize, 0)));
 const canMerge = computed(() => stagedFiles.value.length > 0 && !!savePath.value && !isProcessing.value);
+
+onMounted(async () => {
+  try {
+    const result = await electroview.rpc?.request('historyList', { limit: 20 });
+    if (result) {
+      recentHistory.value = (result as HistoryItem[]).filter((i) => i.operation === 'merge').slice(0, 5);
+    }
+  } catch {
+    // RPC not ready or no history
+  }
+});
 
 function parsePageRange(range: string): { start: number; end: number } | undefined {
   const match = range.match(/^(\d+)\s*[-–]\s*(\d+)$/);
@@ -126,6 +143,11 @@ function clearAll() {
   error.value = null;
 }
 
+function handleCancel() {
+  clearAll();
+  router.push('/');
+}
+
 function reorderFiles(fromIndex: number, toIndex: number) {
   const files = [...stagedFiles.value];
   const [moved] = files.splice(fromIndex, 1);
@@ -186,6 +208,10 @@ async function handleMerge() {
 
     if (result) {
       mergeResult.value = result;
+      if (redirectTimeout) clearTimeout(redirectTimeout);
+      redirectTimeout = setTimeout(() => {
+        router.push('/');
+      }, 2000);
     }
   } catch (err) {
     if (!error.value) {
@@ -209,6 +235,7 @@ const unsubError = onMergeError((message) => {
 onUnmounted(() => {
   unsubProgress();
   unsubError();
+  if (redirectTimeout) clearTimeout(redirectTimeout);
 });
 </script>
 
@@ -264,27 +291,42 @@ onUnmounted(() => {
       </template>
 
       <template v-else>
-        <div
-          class="flex flex-col items-center justify-center h-full cursor-pointer p-8"
-          @click="handleBrowse"
-        >
+        <div class="p-8">
+          <div class="text-center mb-8">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Merge PDFs</div>
+            <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Combine multiple PDFs into one</h1>
+            <p class="text-sm text-zinc-500 mt-2 max-w-md mx-auto leading-relaxed">
+              Drop multiple PDFs to merge them in any order. You can set per-file page ranges before merging.
+            </p>
+          </div>
+
           <div
-            class="w-full max-w-md rounded-lg border-2 border-dashed p-16 text-center transition-colors"
-            :class="isDragging
-              ? 'border-zinc-900 bg-zinc-100'
-              : 'border-zinc-300 hover:border-zinc-400 hover:bg-zinc-50/50'"
+            class="flex flex-col items-center justify-center cursor-pointer"
+            @click="handleBrowse"
           >
-            <div class="w-12 h-12 mx-auto mb-4 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-500">
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                <path d="M12 3v12M7 8l5-5 5 5M5 21h14" />
-              </svg>
+            <div
+              class="w-full max-w-md rounded-lg border-2 border-dashed p-16 text-center transition-colors"
+              :class="isDragging
+                ? 'border-zinc-900 bg-zinc-100'
+                : 'border-zinc-300 hover:border-zinc-400 hover:bg-zinc-50/50'"
+            >
+              <div class="w-12 h-12 mx-auto mb-4 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-500">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <path d="M12 3v12M7 8l5-5 5 5M5 21h14" />
+                </svg>
+              </div>
+              <div class="text-sm font-medium text-zinc-900">
+                {{ isDragging ? 'Drop PDFs here' : 'Drag & drop multiple PDFs here' }}
+              </div>
+              <div class="text-xs text-zinc-500 mt-1">
+                or <button class="text-zinc-900 underline underline-offset-2 hover:text-black">browse files</button>
+              </div>
             </div>
-            <div class="text-sm font-medium text-zinc-900">
-              {{ isDragging ? 'Drop PDFs here' : 'Drag & drop multiple PDFs here' }}
-            </div>
-            <div class="text-xs text-zinc-500 mt-1">
-              or <button class="text-zinc-900 underline underline-offset-2 hover:text-black">browse files</button>
-            </div>
+          </div>
+
+          <div v-if="recentHistory.length > 0" class="mt-10">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-3">Recent merges</div>
+            <HistoryTable :items="recentHistory" compact />
           </div>
         </div>
       </template>
@@ -306,7 +348,7 @@ onUnmounted(() => {
       @reorder="reorderFiles"
       @pick-output-dir="handleChooseOutputDir"
       @merge="handleMerge"
-      @cancel="clearAll"
+      @cancel="handleCancel"
     />
   </div>
 </template>

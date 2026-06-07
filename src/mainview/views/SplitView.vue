@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useElectroView, onSplitProgress, onSplitError } from '../composables/useRPC';
+import HistoryTable from '../components/HistoryTable.vue';
+import type { HistoryItem } from '../types/history';
 
 const { electroview } = useElectroView();
+const router = useRouter();
 
 const sourceFile = ref<{ filename: string; filePath: string; pageCount: number; fileSize: number } | null>(null);
 const selectedPages = ref<number[]>([]);
@@ -17,6 +21,8 @@ const error = ref<string | null>(null);
 const splitResult = ref<Array<{ name: string; path: string; size: number; pages: number[] }> | null>(null);
 const isDragging = ref(false);
 let dragCounter = 0;
+const recentHistory = ref<HistoryItem[]>([]);
+let redirectTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const displayedPages = computed(() => {
   if (!sourceFile.value) return [];
@@ -171,6 +177,17 @@ function formatFileSize(bytes: number): string {
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
+onMounted(async () => {
+  try {
+    const result = await electroview.rpc?.request('historyList', { limit: 20 });
+    if (result) {
+      recentHistory.value = (result as HistoryItem[]).filter((i) => i.operation === 'split').slice(0, 5);
+    }
+  } catch {
+    // RPC not ready or no history
+  }
+});
+
 // TODO: Add a default output path setting in the Settings page so users don't
 // have to pick the directory every time. Persist the choice in the DB and
 // pre-populate `outputPath` from it when SplitView mounts.
@@ -184,6 +201,11 @@ async function handleChooseOutputDir() {
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to choose output directory';
   }
+}
+
+function handleCancel() {
+  sourceFile.value = null;
+  router.push('/');
 }
 
 async function handleSplit() {
@@ -221,6 +243,10 @@ async function handleSplit() {
     const result = await electroview.rpc?.request('splitExecute', params);
     if (result) {
       splitResult.value = result.outputFiles;
+      if (redirectTimeout) clearTimeout(redirectTimeout);
+      redirectTimeout = setTimeout(() => {
+        router.push('/');
+      }, 2000);
     }
   } catch (err) {
     if (!error.value) {
@@ -244,6 +270,7 @@ const unsubError = onSplitError((message) => {
 onUnmounted(() => {
   unsubProgress();
   unsubError();
+  if (redirectTimeout) clearTimeout(redirectTimeout);
 });
 </script>
 
@@ -291,8 +318,16 @@ onUnmounted(() => {
       </template>
 
       <template v-else>
+        <div class="text-center mb-8">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Split PDF</div>
+          <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Extract pages from any PDF</h1>
+          <p class="text-sm text-zinc-500 mt-2 max-w-md mx-auto leading-relaxed">
+            Drop a single PDF to split it by page selection, ranges, or fixed intervals.
+          </p>
+        </div>
+
         <div
-          class="flex flex-col items-center justify-center h-full cursor-pointer"
+          class="flex flex-col items-center justify-center cursor-pointer"
           @click="handleBrowse"
           @dragenter="handleDragEnter"
           @dragover="handleDragOver"
@@ -317,6 +352,11 @@ onUnmounted(() => {
               or <button class="text-zinc-900 underline underline-offset-2 hover:text-black">browse files</button>
             </div>
           </div>
+        </div>
+
+        <div v-if="recentHistory.length > 0" class="mt-10">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-3">Recent splits</div>
+          <HistoryTable :items="recentHistory" compact />
         </div>
       </template>
 
@@ -426,7 +466,7 @@ onUnmounted(() => {
         </div>
 
         <div class="flex items-center justify-end gap-2">
-          <button @click="sourceFile = null" class="px-4 py-2 text-sm border border-zinc-200 rounded-md hover:bg-zinc-50">Cancel</button>
+          <button @click="handleCancel" class="px-4 py-2 text-sm border border-zinc-200 rounded-md hover:bg-zinc-50">Cancel</button>
           <button
             @click="handleSplit"
             :disabled="isProcessing || estimatedFileCount === 0 || !outputPath"
