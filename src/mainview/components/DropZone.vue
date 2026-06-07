@@ -1,7 +1,12 @@
 <script setup lang="ts">
-defineEmits<{
+const emit = defineEmits<{
   (e: 'drop', files: FileList): void;
+  (e: 'browse'): void;
 }>();
+
+function handleClickBrowseFile() {
+  emit('browse');
+}
 </script>
 
 <template>
@@ -12,6 +17,6 @@ defineEmits<{
       </svg>
     </div>
     <div class="text-sm font-medium text-zinc-900">Drag & drop PDFs here</div>
-    <div class="text-xs text-zinc-500 mt-1">or <button class="text-zinc-900 underline underline-offset-2 hover:text-black">browse files</button> · multi-select supported</div>
+    <div class="text-xs text-zinc-500 mt-1">or <button @click="handleClickBrowseFile" class="text-zinc-900 underline underline-offset-2 hover:text-black">browse files</button> · multi-select supported</div>
   </div>
 </template>
