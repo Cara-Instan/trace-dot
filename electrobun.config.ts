@@ -2,8 +2,8 @@ import type { ElectrobunConfig } from "electrobun";
 
 export default {
 	app: {
-		name: "vue-app",
-		identifier: "vueapp.electrobun.dev",
+		name: "trace-dot",
+		identifier: "com.carainstan.tracedot",
 		version: "0.0.1",
 	},
 	build: {
