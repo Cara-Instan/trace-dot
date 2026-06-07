@@ -5,6 +5,7 @@ import { useElectroView, onMergeProgress, onMergeError } from '../composables/us
 import FileCard from '../components/FileCard.vue';
 import MergeConfigFooter from '../components/MergeConfigFooter.vue';
 import HistoryTable from '../components/HistoryTable.vue';
+import SuccessOverlay from '../components/SuccessOverlay.vue';
 import type { HistoryItem } from '../types/history';
 import { formatFileSize } from '../utils/format';
 
@@ -211,7 +212,7 @@ async function handleMerge() {
       if (redirectTimeout) clearTimeout(redirectTimeout);
       redirectTimeout = setTimeout(() => {
         router.push('/');
-      }, 2000);
+      }, 3000);
     }
   } catch (err) {
     if (!error.value) {
@@ -240,7 +241,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col overflow-hidden">
+  <div class="flex-1 flex flex-col overflow-hidden relative">
     <div
       class="flex-1 overflow-auto"
       @dragenter="handleDragEnter"
@@ -272,15 +273,6 @@ onUnmounted(() => {
               @remove="removeFile(file.id)"
             />
           </div>
-
-          <template v-if="mergeResult">
-            <div class="mt-6 border border-green-200 bg-green-50 rounded-md p-4">
-              <div class="text-sm font-medium text-green-800 mb-2">Merge complete</div>
-              <div class="text-xs font-mono text-green-700">
-                {{ mergeResult.outputPath }} ({{ formatFileSize(mergeResult.fileSize) }}) — {{ mergeResult.pageCount }} pages
-              </div>
-            </div>
-          </template>
 
           <template v-if="error">
             <div class="mt-4 border border-red-200 bg-red-50 rounded-md p-4">
@@ -350,5 +342,16 @@ onUnmounted(() => {
       @merge="handleMerge"
       @cancel="handleCancel"
     />
+
+    <SuccessOverlay
+      v-if="mergeResult"
+      title="Merge Complete"
+      :description="`${mergeResult.pageCount} pages merged into one file`"
+      @done="router.push('/')"
+    >
+      <div class="text-xs font-mono text-zinc-500 mb-1">Output file</div>
+      <div class="text-sm font-mono text-zinc-900 break-all">{{ mergeResult.outputPath }}</div>
+      <div class="text-xs font-mono text-zinc-400 mt-2">{{ formatFileSize(mergeResult.fileSize) }} · {{ mergeResult.pageCount }} pages</div>
+    </SuccessOverlay>
   </div>
 </template>

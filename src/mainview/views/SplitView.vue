@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useElectroView, onSplitProgress, onSplitError } from '../composables/useRPC';
 import HistoryTable from '../components/HistoryTable.vue';
+import SuccessOverlay from '../components/SuccessOverlay.vue';
 import type { HistoryItem } from '../types/history';
 
 const { electroview } = useElectroView();
@@ -246,7 +247,7 @@ async function handleSplit() {
       if (redirectTimeout) clearTimeout(redirectTimeout);
       redirectTimeout = setTimeout(() => {
         router.push('/');
-      }, 2000);
+      }, 3000);
     }
   } catch (err) {
     if (!error.value) {
@@ -275,7 +276,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-1 flex flex-col overflow-hidden">
+  <div class="flex-1 flex flex-col overflow-hidden relative">
     <div class="flex-1 overflow-auto p-8">
       <template v-if="sourceFile">
         <div class="flex items-end justify-between mb-6">
@@ -357,15 +358,6 @@ onUnmounted(() => {
         <div v-if="recentHistory.length > 0" class="mt-10">
           <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-3">Recent splits</div>
           <HistoryTable :items="recentHistory" compact />
-        </div>
-      </template>
-
-      <template v-if="splitResult">
-        <div class="mt-6 border border-green-200 bg-green-50 rounded-md p-4">
-          <div class="text-sm font-medium text-green-800 mb-2">Split complete — {{ splitResult.length }} file{{ splitResult.length === 1 ? '' : 's' }} created</div>
-          <div v-for="file in splitResult" :key="file.name" class="text-xs font-mono text-green-700">
-            {{ file.name }} ({{ formatFileSize(file.size) }}) — pages {{ file.pages[0] }}–{{ file.pages[file.pages.length - 1] }}
-          </div>
         </div>
       </template>
 
@@ -490,5 +482,18 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
+
+    <SuccessOverlay
+      v-if="splitResult"
+      title="Split Complete"
+      :description="`${splitResult.length} file${splitResult.length === 1 ? '' : 's'} created`"
+      @done="router.push('/')"
+    >
+      <div class="text-xs font-mono text-zinc-500 mb-1">Output files</div>
+      <div v-for="file in splitResult" :key="file.name" class="text-sm font-mono text-zinc-900 break-all">
+        {{ file.name }}
+        <span class="text-xs font-mono text-zinc-400 ml-2">{{ formatFileSize(file.size) }} · pages {{ file.pages[0] }}–{{ file.pages[file.pages.length - 1] }}</span>
+      </div>
+    </SuccessOverlay>
   </div>
 </template>

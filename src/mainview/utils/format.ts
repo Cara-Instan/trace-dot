@@ -5,7 +5,7 @@ export function formatFileSize(bytes: number): string {
 }
 
 export function getRelativeTime(dateStr: string): string {
-  const date = new Date(dateStr);
+  const date = new Date(dateStr.endsWith('Z') ? dateStr : dateStr + 'Z');
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffSec = Math.floor(diffMs / 1000);
