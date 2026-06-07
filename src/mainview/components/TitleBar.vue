@@ -11,6 +11,6 @@ defineProps<{
       <span class="w-3 h-3 rounded-full bg-zinc-300"></span>
       <span class="w-3 h-3 rounded-full bg-zinc-300"></span>
     </div>
-    <div class="text-xs text-zinc-500 ml-auto font-mono tracking-tight">Pinch · {{ title }}</div>
+    <div class="text-xs text-zinc-500 ml-auto font-mono tracking-tight">Trace · {{ title }}</div>
   </div>
 </template>

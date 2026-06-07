@@ -19,7 +19,7 @@ async function handleBrowseFile() {
   <div class="max-w-2xl">
     <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2">Welcome back</div>
     <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Drop PDFs to start.</h1>
-    <p class="text-sm text-zinc-500 mt-1.5 leading-relaxed">Pinch works entirely on-device. Your files never leave your machine — merge, split, and reorganize without an upload.</p>
+    <p class="text-sm text-zinc-500 mt-1.5 leading-relaxed">Trace works entirely on-device. Your files never leave your machine — merge, split, and reorganize without an upload.</p>
   </div>
   <DropZone @browse="handleBrowseFile" class="mt-6" />
   <div class="mt-10">

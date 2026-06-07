@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import ToggleSwitch from './ToggleSwitch.vue';
 
 const outputFilename = ref('merged-output.pdf');
-const savePath = ref('~/Documents/Pinch');
+const savePath = ref('~/Documents/Trace');
 const outputFormat = ref('pdf');
 </script>
 

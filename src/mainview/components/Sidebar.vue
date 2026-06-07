@@ -32,8 +32,8 @@ const isActive = (path: string) => route.path === path;
 <template>
   <aside class="w-56 border-r border-zinc-200 bg-white p-3 shrink-0 flex flex-col">
     <div class="flex items-center gap-2 px-2 py-1.5 mb-4">
-      <div class="w-6 h-6 rounded-md bg-black text-white text-xs font-bold flex items-center justify-center">P</div>
-      <span class="text-sm font-semibold tracking-tight">Pinch</span>
+      <img src="../assets/logo/logo.png" alt="Trace" class="w-6 h-6 rounded-md" />
+      <span class="text-sm font-semibold tracking-tight">Trace</span>
     </div>
     <div class="text-[10px] font-mono uppercase tracking-wider text-zinc-400 mb-2 px-2">PDF Suite</div>
     <nav class="space-y-0.5">
