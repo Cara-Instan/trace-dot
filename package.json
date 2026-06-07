@@ -13,6 +13,7 @@
 	"dependencies": {
 		"@tailwindcss/vite": "^4.3.0",
 		"electrobun": "1.18.1",
+		"pdf-lib": "^1.17.1",
 		"tailwindcss": "^4.3.0",
 		"vue-router": "^5.1.0"
 	},
