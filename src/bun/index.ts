@@ -1,6 +1,7 @@
 import { BrowserView, BrowserWindow, Updater } from "electrobun/bun";
 import { MainRPCTypes } from "../shared/types";
 import { createSplitRPCService } from "./rpc/split/service";
+import { createMergeRPCService } from "./rpc/merge/service";
 import { createHistoryRPCService } from "./rpc/history/service";
 
 const DEV_SERVER_PORT = 5173;
@@ -32,6 +33,7 @@ const rpc = BrowserView.defineRPC<MainRPCTypes>({
 	handlers: {
 		requests: {
 			...createSplitRPCService(),
+			...createMergeRPCService(),
 			...createHistoryRPCService(),
 		},
 	},

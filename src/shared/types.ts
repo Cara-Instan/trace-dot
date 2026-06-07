@@ -1,12 +1,13 @@
 import { RPCSchema } from "electrobun";
 import { SplitBunRPCType } from "../bun/rpc/split/types";
+import { MergeBunRPCType } from "../bun/rpc/merge/types";
 import { HistoryBunRPCType } from "../bun/rpc/history/types";
 
 export type MainRPCTypes = {
   // functions that execute in the main process
   bun: {
-    requests: SplitBunRPCType["requests"] & HistoryBunRPCType["requests"];
-    messages: SplitBunRPCType["messages"] & HistoryBunRPCType["messages"];
+    requests: SplitBunRPCType["requests"] & MergeBunRPCType["requests"] & HistoryBunRPCType["requests"];
+    messages: SplitBunRPCType["messages"] & MergeBunRPCType["messages"] & HistoryBunRPCType["messages"];
   };
   // functions that execute in the browser context
   webview: RPCSchema<{
@@ -14,6 +15,8 @@ export type MainRPCTypes = {
     messages: {
       onSplitProgress: { current: number; total: number };
       onSplitError: { message: string };
+      onMergeProgress: { current: number; total: number };
+      onMergeError: { message: string };
     }
   }>;
 };
