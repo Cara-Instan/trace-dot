@@ -28,10 +28,11 @@ defineEmits<{
     </div>
     <div v-else-if="type === 'select' && options" class="flex border border-zinc-200 rounded-md overflow-hidden">
       <button
-        v-for="(opt, idx) in options"
+        v-for="opt in options"
         :key="opt"
         class="px-3 py-1.5 text-xs"
         :class="modelValue === opt ? 'bg-zinc-100 text-zinc-900 font-medium' : 'text-zinc-600 hover:bg-zinc-50'"
+        @click="$emit('update:modelValue', opt)"
       >
         {{ opt }}
       </button>
