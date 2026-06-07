@@ -12,7 +12,8 @@ export type MainRPCTypes = {
   webview: RPCSchema<{
     requests: {};
     messages: {
-      onLogTest: {message: string};
+      onSplitProgress: { current: number; total: number };
+      onSplitError: { message: string };
     }
   }>;
 };

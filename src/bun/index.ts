@@ -28,7 +28,7 @@ const url = await getMainViewUrl();
 
 
 const rpc = BrowserView.defineRPC<MainRPCTypes>({
-	maxRequestTime: 10000, // 10 seconds
+	maxRequestTime: 60000, // 60 seconds (file dialog + PDF processing can be slow)
 	handlers: {
 		requests: {
 			...createSplitRPCService(),
