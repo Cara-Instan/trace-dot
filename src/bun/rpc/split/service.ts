@@ -1,22 +1,13 @@
 import { callMainWindow } from "../../index";
 import { Utils } from "electrobun";
-import { getPdfMetadata, splitPdf, type SplitConfig } from "../../pdf/index";
+import { splitPdf, type SplitConfig } from "../../pdf/index";
 import { addHistory } from "../../db/history";
+import { buildFileResult } from "../utils";
 import { join } from "node:path";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 
 let currentTempDir: string | null = null;
-
-async function buildFileResult(filePath: string, filename?: string) {
-  const metadata = await getPdfMetadata(filePath);
-  return {
-    filename: filename ?? filePath.split(/[/\\]/).pop() ?? filePath,
-    filePath,
-    pageCount: metadata.pageCount,
-    fileSize: metadata.fileSize,
-  };
-}
 
 export function createSplitRPCService() {
   return {

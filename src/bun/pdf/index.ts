@@ -76,6 +76,58 @@ export async function splitPdf(
   return outputFiles;
 }
 
+export interface MergeFileInput {
+  filePath: string;
+  pageRange?: { start: number; end: number };
+}
+
+export interface MergeResult {
+  outputPath: string;
+  fileSize: number;
+  pageCount: number;
+}
+
+export async function mergePdf(
+  files: MergeFileInput[],
+  outputPath: string,
+  onProgress?: (current: number, total: number) => void,
+): Promise<MergeResult> {
+  const mergedDoc = await PDFDocument.create();
+  let totalCopiedPages = 0;
+
+  for (let i = 0; i < files.length; i++) {
+    const { filePath, pageRange } = files[i];
+    const fileBuffer = await Bun.file(filePath).arrayBuffer();
+    const sourceDoc = await PDFDocument.load(fileBuffer);
+    const sourcePageCount = sourceDoc.getPageCount();
+
+    const start = pageRange ? Math.max(1, Math.min(pageRange.start, sourcePageCount)) : 1;
+    const end = pageRange ? Math.max(start, Math.min(pageRange.end, sourcePageCount)) : sourcePageCount;
+
+    const pageIndices: number[] = [];
+    for (let p = start; p <= end; p++) {
+      pageIndices.push(p - 1);
+    }
+
+    if (pageIndices.length > 0) {
+      const copiedPages = await mergedDoc.copyPages(sourceDoc, pageIndices);
+      copiedPages.forEach((page) => mergedDoc.addPage(page));
+      totalCopiedPages += copiedPages.length;
+    }
+
+    onProgress?.(i + 1, files.length);
+  }
+
+  const pdfBytes = await mergedDoc.save();
+  await Bun.write(outputPath, pdfBytes);
+
+  return {
+    outputPath,
+    fileSize: pdfBytes.byteLength,
+    pageCount: totalCopiedPages,
+  };
+}
+
 function resolvePageGroups(
   config: SplitConfig,
   totalPages: number,
